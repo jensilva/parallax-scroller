@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Parallax Scrolling Demo</title>
+  <style>
+        body { background-color: #000000; }
+        canvas { background-color: #222222; }
+      </style>
+</head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.5/pixi.min.js"></script>
+<body  onload="init();">
+        <div align="center">
+            <canvas id="game-canvas" width="512" height="384"></canvas>
+        </div>
+
+<script type="text/javascript">
+    //On init and render
+    function init() {
+        stage = new PIXI.Container();
+        renderer = PIXI.autoDetectRenderer(
+            512,
+            384,
+        {view:document.getElementById("game-canvas")}
+  );
+
+    //Creating a Texture of far background layer
+    const farTexture = PIXI.Texture.fromImage("../resources/bg-far.png");
+
+    //Creating a Tillign Sprite of far background layer (texture,width and height)
+    far = new PIXI.extras.TilingSprite(farTexture, 512, 256);
+
+    // top-left position is at (0,0) and the bottom right is at (512,384).
+    //A sprite’s default pivot point is set to its top-left corner.
+    far.position.x = 0;
+    far.position.y = 0;
+    far.tilePosition.x = 0;
+    far.tilePosition.y = 0;
+
+    //Add Sprite as child of the Stage    
+    stage.addChild(far);
+
+    //Creating a Texture of mid-layer
+    const midTexture = PIXI.Texture.fromImage("../resources/bg-mid.png");
+    mid = new PIXI.extras.TilingSprite(midTexture, 512,256);
+    mid.position.x = 0;
+    mid.position.y = 128;
+    mid.tilePosition.x = 0;
+    mid.tilePosition.y = 0;
+    stage.addChild(mid);
+
+    requestAnimationFrame(update);
+    
+    }
+
+    function update() {
+        far.tilePosition.x -= 0.128;
+        mid.tilePosition.x -= 0.64;
+
+        renderer.render(stage);
+
+        requestAnimationFrame(update);
+    }
+  </script>
+</body>
+</html>
