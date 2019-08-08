@@ -6,13 +6,22 @@ function Main() {
 		{view:document.getElementById("game-canvas")}
 	);
 
+	this.scrollSpeed = Main.MIN_SCROLL_SPEED;
+
 	this.loadSpriteSheet();
 }
 
-Main.SCROLL_SPEED = 3;
+Main.MIN_SCROLL_SPEED = 3;
+Main.MAX_SCROLL_SPEED = 10;
+Main.SCROLL_ACCELERATION = 0.005;
 
 Main.prototype.update = function() {
-	this.scroller.moveViewportXBy(Main.SCROLL_SPEED);
+	this.scroller.moveViewportXBy(this.scrollSpeed);
+	this.scrollSpeed += Main.SCROLL_ACCELERATION;
+	if (this.scrollSpeed > Main.MAX_SCROLL_SPEED)
+	{
+	  this.scrollSpeed = Main.MAX_SCROLL_SPEED;
+	}
 	this.renderer.render(this.stage);
 	requestAnimationFrame(this.update.bind(this));
 };
